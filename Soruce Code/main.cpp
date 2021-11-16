@@ -25,7 +25,7 @@ int main ()
 
     s1->initializeArrival(2);
 
-    s1->setNext(nullptr, s2, s2);
+    s1->setNext(s2, s2, s2);
 
     s2->setNext(nullptr, nullptr, nullptr);
 

@@ -51,6 +51,10 @@ void Server:: initializeDeparture(){
     if((!nextServer.empty()) && (nextServer[currentJobId-1] != nullptr)){
         nextServer[currentJobId-1] ->initializeArrival(currentJobId);
     }
+    if ((itemArrived_ < 1000) && (serverId_ == 1)) {
+        cout<<itemArrived_<<endl;
+        initializeArrival(2);
+    }
 }
 
 void
@@ -85,22 +89,15 @@ Server :: arrivalHandler () {
         totalQueueDelay_ += queueDelay_;
 
         initializeDeparture();
-    }/*
-    else if (nextServer != nullptr){
-        itemArrived_--;
-        nextServer-> arrivalHandler();
-        return;
-    }*/
+    }
     else {
         queue_->enque(temp);
-    }
-    if (temp->id_ < 1000) {
-        //initializeArrival();
     }
 }
 
 void
 Server :: departureHandler () {
+    status() -= 1;
     // write to the trace file
     if (queue_->length() > 0) {
         trace_ << "d\t" << Scheduler::now () << "\t" << itemInService_->id_ << "\t" << status_ << "\t" << queue_->length() << endl;
